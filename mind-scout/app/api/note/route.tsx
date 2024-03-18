@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       status: HttpCode.BAD_REQUEST,
     });
 
-  const user = await GetUser(session.user?.email!);
+  const user = await GetUser();
   const authorId = user!.id;
 
   const { title, content, description } = body;
@@ -29,8 +29,6 @@ export async function POST(request: NextRequest) {
       description,
     },
   });
-
-  console.log(newPage);
 
   return NextResponse.json(newPage, { status: HttpCode.CREATED });
 }
