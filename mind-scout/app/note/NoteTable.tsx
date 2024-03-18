@@ -12,9 +12,15 @@ const NoteTable = ({ notes }: Props) => {
       <Table.Header>
         <Table.Row>
           <TableColumnHeaderCell>Title</TableColumnHeaderCell>
-          <TableColumnHeaderCell>Description</TableColumnHeaderCell>
-          <TableColumnHeaderCell>Page Status</TableColumnHeaderCell>
-          <TableColumnHeaderCell>Last Edit</TableColumnHeaderCell>
+          <TableColumnHeaderCell className="hidden md:table-cell">
+            Description
+          </TableColumnHeaderCell>
+          <TableColumnHeaderCell className="hidden md:table-cell">
+            Page Status
+          </TableColumnHeaderCell>
+          <TableColumnHeaderCell className="hidden md:table-cell">
+            Last Edit
+          </TableColumnHeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
