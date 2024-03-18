@@ -12,7 +12,6 @@ const NoteDetails = ({ note }: { note: Page }) => {
         <Text>{note.createdAt.toDateString()}</Text>
       </Flex>
       <Card className="prose max-w-full">
-        <Text>{note.description}</Text>
         <ReactMarkdown>{note.content}</ReactMarkdown>
       </Card>
     </>

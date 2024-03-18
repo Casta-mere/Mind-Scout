@@ -1,5 +1,7 @@
-import prisma from "@/prisma/client";
 import { GetUser } from "@/app/components";
+import prisma from "@/prisma/client";
+import { Flex } from "@radix-ui/themes";
+import NoteActions from "./NoteActions";
 import NoteTable from "./NoteTable";
 
 const NotesPage = async () => {
@@ -13,8 +15,11 @@ const NotesPage = async () => {
     },
   });
 
-  console.log(notes.map((page) => page.id));
-
-  return <NoteTable notes={notes} />;
+  return (
+    <Flex direction="column" gap="4">
+      <NoteActions />
+      <NoteTable notes={notes} />
+    </Flex>
+  );
 };
 export default NotesPage;
