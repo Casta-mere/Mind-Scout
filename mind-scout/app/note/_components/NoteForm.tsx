@@ -42,14 +42,13 @@ const NoteForm = ({ note }: { note?: Page }) => {
       router.push("/note/" + noteId);
       router.refresh();
     } catch (error) {
-      console.log(error);
       setSubmitting(false);
       setError("An unexpected Error occured !");
     }
   };
 
   return (
-    <div className="max-w-xl prose">
+    <div className="max-w-5xl prose">
       {error && (
         <Callout.Root color="red" className="mb-5">
           <Callout.Text>{error}</Callout.Text>

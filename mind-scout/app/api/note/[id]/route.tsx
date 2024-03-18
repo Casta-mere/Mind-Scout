@@ -1,5 +1,5 @@
 import { AuthorCheck, HttpCode } from "@/app/components";
-import { NoteSchema } from "@/app/components/ValidationSchema";
+import { PatchNoteSchema } from "@/app/components/ValidationSchema";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -13,7 +13,7 @@ export async function PATCH(
   if (!session) return NextResponse.json({}, { status: HttpCode.UNAUTHORIZED });
 
   const body = await request.json();
-  const validation = NoteSchema.safeParse(body);
+  const validation = PatchNoteSchema.safeParse(body);
 
   if (!validation.success)
     return NextResponse.json(validation.error.format(), {
@@ -38,7 +38,7 @@ export async function PATCH(
   if (!authorCheck)
     return NextResponse.json({}, { status: HttpCode.UNAUTHORIZED });
 
-  const { title, content, description } = body;
+  const { title, content, description, status, scope } = body;
 
   const updatedNote = await prisma.page.update({
     where: { id },
@@ -46,6 +46,8 @@ export async function PATCH(
       title,
       description,
       content,
+      status,
+      scope,
     },
   });
 
