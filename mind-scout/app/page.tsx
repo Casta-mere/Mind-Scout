@@ -53,7 +53,7 @@ export default async function Home() {
       <Flex direction="column" align="start">
         <NotePieChart inProgress={inProgress} archieved={archieved} />
         {latestNote.map((note) => (
-          <LatestNote note={note} />
+          <LatestNote note={note} key={note.id} />
         ))}
       </Flex>
     </Grid>
