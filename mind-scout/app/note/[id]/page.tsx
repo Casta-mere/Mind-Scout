@@ -1,7 +1,8 @@
-import prisma from "@/prisma/client";
-import NoteDetails from "../NoteDetails";
 import { AuthorCheck } from "@/app/components";
+import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import NoteDetails from "../NoteDetails";
+import DeleteNoteButton from "./DeleteNoteButton";
 import EditNoteButton from "./EditNoteButton";
 interface Props {
   params: { id: string };
@@ -24,7 +25,10 @@ const NoteDetailPAge = async ({ params }: Props) => {
         <Box>
           <Flex direction="column" gap="3">
             {note?.status === "IN_PROGRESS" && (
-              <EditNoteButton noteid={note?.id!} />
+              <Flex direction="column" gap="3">
+                <EditNoteButton noteid={note?.id!} />
+                <DeleteNoteButton noteid={note?.id} />
+              </Flex>
             )}
           </Flex>
         </Box>

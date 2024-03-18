@@ -1,9 +1,9 @@
+import { AuthorCheck, HttpCode } from "@/app/components";
+import { NoteSchema } from "@/app/components/ValidationSchema";
 import prisma from "@/prisma/client";
-import authOptions from "../../auth/AuthOptions";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { NoteSchema } from "@/app/components/ValidationSchema";
-import { GetUser, HttpCode } from "@/app/components";
+import authOptions from "../../auth/AuthOptions";
 
 export async function PATCH(
   request: NextRequest,
@@ -34,8 +34,8 @@ export async function PATCH(
       { status: HttpCode.NOTFOUND }
     );
 
-  const user = await GetUser();
-  if (user?.id !== note.authorId)
+  const authorCheck = await AuthorCheck(note);
+  if (!authorCheck)
     return NextResponse.json({}, { status: HttpCode.UNAUTHORIZED });
 
   const { title, content, description } = body;
@@ -50,4 +50,36 @@ export async function PATCH(
   });
 
   return NextResponse.json(updatedNote, { status: HttpCode.OK });
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: HttpCode.UNAUTHORIZED });
+
+  const id = params.id;
+
+  const note = await prisma.page.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!note)
+    return NextResponse.json(
+      { error: "Invalid Note" },
+      { status: HttpCode.NOTFOUND }
+    );
+
+  const authorCheck = await AuthorCheck(note);
+  if (!authorCheck)
+    return NextResponse.json({}, { status: HttpCode.UNAUTHORIZED });
+
+  await prisma.page.delete({
+    where: { id },
+  });
+
+  return NextResponse.json({}, { status: HttpCode.OK });
 }
