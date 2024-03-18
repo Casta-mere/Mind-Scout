@@ -1,16 +1,16 @@
 "use client";
+import { Spinner } from "@/app/components";
 import { NoteSchema } from "@/app/components/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Page } from "@prisma/client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-import SimpleMDE from "react-simplemde-editor";
+import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
-import { Spinner } from "@/app/components";
+import { Controller, useForm } from "react-hook-form";
+import SimpleMDE from "react-simplemde-editor";
+import { z } from "zod";
 
 type NoteFormData = z.infer<typeof NoteSchema>;
 
@@ -31,8 +31,15 @@ const NoteForm = ({ note }: { note?: Page }) => {
   const onSubmit = async (data: any) => {
     try {
       setSubmitting(true);
-      await axios.patch("/api/note/" + note?.id, data);
-      router.push("/note/" + note?.id);
+      let noteId = "";
+      if (note) {
+        await axios.patch("/api/note/" + note?.id, data);
+        noteId = note?.id;
+      } else {
+        const newNote = await axios.post("/api/note", data);
+        noteId = newNote.data.id;
+      }
+      router.push("/note/" + noteId);
       router.refresh();
     } catch (error) {
       console.log(error);
@@ -70,7 +77,14 @@ const NoteForm = ({ note }: { note?: Page }) => {
           render={({ field }) => <SimpleMDE placeholder="Content" {...field} />}
         />
         <Button disabled={isSubmitting}>
-          {isSubmitting ? "Updating" : "Update"} {isSubmitting && <Spinner />}
+          {!note
+            ? isSubmitting
+              ? "Submiting"
+              : "Submit"
+            : isSubmitting
+            ? "Updating"
+            : "Update"}{" "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>

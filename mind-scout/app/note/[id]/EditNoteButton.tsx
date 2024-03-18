@@ -6,7 +6,7 @@ const EditNoteButton = ({ noteid }: { noteid: string }) => {
   return (
     <Button>
       <Pencil2Icon />
-      <Link href={`/note/${noteid}/edit`}>Edit Issue</Link>
+      <Link href={`/note/${noteid}/edit`}>Edit Note</Link>
     </Button>
   );
 };
