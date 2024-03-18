@@ -1,5 +1,5 @@
 "use client";
-import { Spinner } from "@/app/components";
+import { ErrorMessage, Spinner } from "@/app/components";
 import { NoteSchema } from "@/app/components/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Page } from "@prisma/client";
@@ -63,6 +63,7 @@ const NoteForm = ({ note }: { note?: Page }) => {
             {...register("title")}
           />
         </TextField.Root>
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <TextField.Root>
           <TextField.Input
             defaultValue={note?.description || ""}
@@ -70,12 +71,14 @@ const NoteForm = ({ note }: { note?: Page }) => {
             {...register("description")}
           />
         </TextField.Root>
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Controller
           defaultValue={note?.content || ""}
           name="content"
           control={control}
           render={({ field }) => <SimpleMDE placeholder="Content" {...field} />}
         />
+        <ErrorMessage>{errors.content?.message}</ErrorMessage>
         <Button disabled={isSubmitting}>
           {!note
             ? isSubmitting

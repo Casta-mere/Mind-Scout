@@ -6,3 +6,4 @@ export { default as NoteStatusBadge } from "./Badge/NoteStatusBadge";
 export { default as Link } from "./Link";
 export { default as Spinner } from "./Spinner";
 export { default as AuthorCheck } from "./AuthorCheck";
+export { default as ErrorMessage } from "./ErrorMessage";
