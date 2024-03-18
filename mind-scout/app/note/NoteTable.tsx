@@ -1,12 +1,18 @@
-import { Page } from "@prisma/client";
+import { Page, pageStatus } from "@prisma/client";
 import { Table, TableColumnHeaderCell } from "@radix-ui/themes";
 import { Link, NoteStatusBadge } from "@/app/components";
 
 interface Props {
+  searchParams: NoteQuery;
   notes: Page[];
 }
+export interface NoteQuery {
+  status: pageStatus;
+  orderBy: keyof Page;
+  page: string;
+}
 
-const NoteTable = ({ notes }: Props) => {
+const NoteTable = ({ searchParams, notes }: Props) => {
   return (
     <Table.Root>
       <Table.Header>
@@ -33,7 +39,7 @@ const NoteTable = ({ notes }: Props) => {
               </div>
             </Table.Cell>
 
-            <Table.Cell className="hidden md:table-cell max-w-4">
+            <Table.Cell className="hidden md:table-cell max-w-60">
               <div className="line-clamp-1 ">{note.description}</div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">

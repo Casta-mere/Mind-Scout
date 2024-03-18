@@ -1,25 +1,41 @@
-import { GetUser } from "@/app/components";
+import { GetUser, Pagination } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Flex } from "@radix-ui/themes";
 import NoteActions from "./NoteActions";
-import NoteTable from "./NoteTable";
+import NoteTable, { NoteQuery } from "./NoteTable";
+interface Props {
+  searchParams: NoteQuery;
+}
 
-const NotesPage = async () => {
+const NotesPage = async ({ searchParams }: Props) => {
+  const page = parseInt(searchParams.page) || 1;
+
   const user = await GetUser();
+
+  const where = { authorId: user?.id };
   const notes = await prisma.page.findMany({
-    where: {
-      authorId: user?.id,
-    },
+    where,
     orderBy: {
       updatedAt: "desc",
     },
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
   });
+
+  const notesCount = await prisma.page.count({ where });
 
   return (
     <Flex direction="column" gap="4">
       <NoteActions />
-      <NoteTable notes={notes} />
+      <NoteTable notes={notes} searchParams={searchParams} />
+      <Pagination
+        pageSize={PAGE_SIZE}
+        currentPage={page}
+        itemCount={notesCount}
+      />
     </Flex>
   );
 };
 export default NotesPage;
+
+const PAGE_SIZE = 15;
