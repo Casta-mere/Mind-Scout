@@ -22,7 +22,7 @@ export default NavBar;
 
 const navLinks = [
   { label: <RiDashboardFill />, href: "/" },
-  { label: "Work Space", href: "/workspace" },
+  { label: "Work Space", href: "/note" },
   { label: "Community", href: "/community" },
 ];
 
