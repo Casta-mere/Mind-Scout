@@ -48,6 +48,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  files         Page[]
 }
 
 model VerificationToken {
@@ -56,4 +57,28 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Page {
+  id          String     @id @default(cuid())
+  title       String?    @db.VarChar(255)
+  description String?    @db.VarChar(255)
+  content     String?    @db.Text
+  status      pageStatus @default(IN_PROGRESS)
+  scope       Scope      @default(PROTECTED)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt()
+  authorId    String     @db.VarChar(255)
+  author      User       @relation(fields: [authorId], references: id)
+}
+
+enum pageStatus {
+  IN_PROGRESS
+  ARCHIEVED
+}
+
+enum Scope {
+  PUBLIC
+  PROTECTED
+  PRIVATE
 }
