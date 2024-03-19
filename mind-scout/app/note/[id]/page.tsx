@@ -29,7 +29,7 @@ const NoteDetailPAge = async ({ params }: Props) => {
             {note?.status === "IN_PROGRESS" && (
               <>
                 <EditNoteButton noteid={note?.id!} />
-                <DeleteNoteButton noteid={note?.id} />
+                <DeleteNoteButton noteid={note?.id!} />
               </>
             )}
           </Flex>

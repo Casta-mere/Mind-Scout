@@ -1,8 +1,7 @@
 "use client";
 import { NoteStatusBadge } from "@/app/components";
-import { Page, pageStatus, User } from "@prisma/client";
+import { Page } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";

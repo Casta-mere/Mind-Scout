@@ -36,8 +36,6 @@ export default async function Home() {
     take: 1,
   });
 
-  console.log(latestNote);
-
   return (
     <Grid columns={{ initial: "1", md: "5" }} gap="5">
       <Flex direction="column" gap="5" className="w-full">
