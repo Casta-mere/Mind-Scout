@@ -1,5 +1,6 @@
 import { Flex, Grid } from "@radix-ui/themes";
 import {
+  GetCommitCount,
   GetUser,
   LatestNote,
   NoteChart,
@@ -36,6 +37,8 @@ export default async function Home() {
     take: 1,
   });
 
+  const data = await GetCommitCount(user.id);
+
   return (
     <Grid columns={{ initial: "1", md: "5" }} gap="5">
       <Flex direction="column" gap="5" className="w-full">
@@ -45,7 +48,7 @@ export default async function Home() {
       <Flex direction="column" className="col-span-3">
         <Flex direction="column" gap="5">
           <NoteChart inProgress={inProgress} archieved={archieved} />
-          <WorkHistory />
+          <WorkHistory data={data} />
         </Flex>
       </Flex>
       <Flex direction="column" align="start">

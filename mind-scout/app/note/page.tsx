@@ -1,9 +1,9 @@
 import { GetUser, Pagination } from "@/app/components";
 import prisma from "@/prisma/client";
+import { pageStatus } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
 import NoteActions from "./NoteActions";
 import NoteTable, { NoteQuery } from "./NoteTable";
-import { pageStatus } from "@prisma/client";
 interface Props {
   searchParams: NoteQuery;
 }
@@ -41,4 +41,4 @@ const NotesPage = async ({ searchParams }: Props) => {
 };
 export default NotesPage;
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 10;

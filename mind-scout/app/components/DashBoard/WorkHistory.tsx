@@ -1,23 +1,20 @@
 "use client";
 import { Card } from "@radix-ui/themes";
 import {
-  LineChart,
-  Line,
   CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
-const data = [
-  { name: "Jaunary", commit: 12 },
-  { name: "February", commit: 20 },
-  { name: "March", commit: 5 },
-  { name: "April", commit: 45 },
-  { name: "May", commit: 50 },
-];
 
-const WorkHistory = () => {
+interface Props {
+  data: { month: string; commit: number; monthN: number }[];
+}
+
+const WorkHistory = ({ data }: Props) => {
   return (
     <Card>
       <ResponsiveContainer height={300}>
@@ -29,7 +26,7 @@ const WorkHistory = () => {
         >
           <Line type="monotone" dataKey="commit" stroke="#8884d8" />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
         </LineChart>

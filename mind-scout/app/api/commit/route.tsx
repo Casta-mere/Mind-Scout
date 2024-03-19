@@ -26,6 +26,7 @@ export async function PATCH(request: NextRequest) {
       data: {
         userId: user?.id!,
         monthStartDate: startOfThisMonth,
+        commitCount: 1,
       },
     });
     return NextResponse.json({}, { status: HttpCode.CREATED });

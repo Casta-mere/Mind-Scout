@@ -8,6 +8,7 @@ export { default as SocilaUpdates } from "./DashBoard/SocialUpdates";
 export { default as WorkHistory } from "./DashBoard/WorkHistory";
 export { default as ErrorMessage } from "./ErrorMessage";
 export { default as AuthorCheck } from "./Function/AuthorCheck";
+export { default as GetCommitCount } from "./Function/GetCommitCount";
 export { default as GetStartOfThiSMonth } from "./Function/GetStartOfThisMonth";
 export { default as GetUser } from "./Function/GetUser";
 export { default as HttpCode } from "./HttpCode";
