@@ -1,6 +1,6 @@
 import { Page, pageStatus } from "@prisma/client";
-import { Table, TableColumnHeaderCell } from "@radix-ui/themes";
-import { Link, NoteStatusBadge } from "@/app/components";
+import { Flex, Table, TableColumnHeaderCell } from "@radix-ui/themes";
+import { Link, NoteScopeBadge, NoteStatusBadge } from "@/app/components";
 
 interface Props {
   searchParams: NoteQuery;
@@ -35,7 +35,12 @@ const NoteTable = ({ searchParams, notes }: Props) => {
             <Table.Cell>
               <Link href={`/note/${note.id}`}>{note.title || ""}</Link>
               <div className="block md:hidden">
-                <NoteStatusBadge status={note.status} />
+                <Flex gap="3">
+                  <NoteStatusBadge status={note.status} />
+                  {note.scope === "PUBLIC" && (
+                    <NoteScopeBadge scope={note.scope} />
+                  )}
+                </Flex>
               </div>
             </Table.Cell>
 
@@ -43,7 +48,12 @@ const NoteTable = ({ searchParams, notes }: Props) => {
               <div className="line-clamp-1 ">{note.description}</div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
-              <NoteStatusBadge status={note.status} />
+              <Flex gap="3">
+                <NoteStatusBadge status={note.status} />
+                {note.scope === "PUBLIC" && (
+                  <NoteScopeBadge scope={note.scope} />
+                )}
+              </Flex>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
               {note.createdAt.toDateString()}

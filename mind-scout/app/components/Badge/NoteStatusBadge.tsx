@@ -3,7 +3,7 @@ import { Badge } from "@radix-ui/themes";
 
 const statusMap: Record<
   pageStatus,
-  { label: string; color: "green" | "violet" | "red" }
+  { label: string; color: "green" | "violet" }
 > = {
   IN_PROGRESS: { label: "In Progress", color: "green" },
   ARCHIEVED: { label: "Archieved", color: "violet" },

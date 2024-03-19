@@ -3,6 +3,7 @@ export { default as NavBar } from "./NavBar/Navbar";
 export { default as HttpCode } from "./HttpCode";
 export { default as GetUser } from "./GetUser";
 export { default as NoteStatusBadge } from "./Badge/NoteStatusBadge";
+export { default as NoteScopeBadge } from "./Badge/NoteScpoeBadge";
 export { default as Link } from "./Link";
 export { default as Spinner } from "./Spinner";
 export { default as AuthorCheck } from "./AuthorCheck";
