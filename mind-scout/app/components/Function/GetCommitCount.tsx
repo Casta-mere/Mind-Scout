@@ -6,6 +6,9 @@ async function GetCommitCount(userid: string) {
       userId: userid,
     },
     take: 5,
+    orderBy: {
+      monthStartDate: "desc",
+    },
   });
 
   const data = commitRecord.map((commit) => {
