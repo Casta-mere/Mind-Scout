@@ -7,7 +7,7 @@ async function GetCommitCount(userid: string) {
     },
     take: 5,
     orderBy: {
-      monthStartDate: "desc",
+      monthStartDate: "asc",
     },
   });
 
