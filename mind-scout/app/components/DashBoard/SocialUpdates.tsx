@@ -6,7 +6,7 @@ import NoteStatusBadge from "../Badge/NoteStatusBadge";
 const SocilaUpdates = async () => {
   const notes = await prisma.page.findMany({
     orderBy: { createdAt: "desc" },
-    take: 5,
+    take: 6,
     include: {
       author: true,
     },

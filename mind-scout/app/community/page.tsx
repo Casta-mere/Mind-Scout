@@ -1,7 +1,10 @@
-import NoteCards from "./NoteCards";
+import NoteCards, { NoteQuery } from "./NoteCards";
+interface Props {
+  searchParams: NoteQuery;
+}
 
-const NotesPage = () => {
-  return <NoteCards />;
+const NotesPage = ({ searchParams }: Props) => {
+  return <NoteCards searchParams={searchParams} />;
 };
 
 export const dynamic = "force-dynamic";

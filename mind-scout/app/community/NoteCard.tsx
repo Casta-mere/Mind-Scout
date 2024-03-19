@@ -7,8 +7,8 @@ import Link from "next/link";
 const NoteCard = ({ note, avatarUrl }: { note: Page; avatarUrl: string }) => {
   return (
     <Link href={`/note/${note.id}`}>
-      <Card className="prose" size="1">
-        <Flex direction="row" justify="between" align="center">
+      <Card size="1">
+        <Flex direction="row" justify="between" align="center" mb="2">
           <Flex direction="column" justify="between" align="start" gap="2">
             <Heading as="h1" className="line-clamp-1">
               {note.title}
@@ -17,9 +17,7 @@ const NoteCard = ({ note, avatarUrl }: { note: Page; avatarUrl: string }) => {
           </Flex>
           <Avatar src={avatarUrl} fallback={"?"} />
         </Flex>
-        <ReactMarkdown className="line-clamp-3">
-          {note.description}
-        </ReactMarkdown>
+        <ReactMarkdown className="line-clamp-3">{note.content}</ReactMarkdown>
       </Card>
     </Link>
   );
