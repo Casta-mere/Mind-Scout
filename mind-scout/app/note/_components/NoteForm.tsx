@@ -39,6 +39,7 @@ const NoteForm = ({ note }: { note?: Page }) => {
         const newNote = await axios.post("/api/note", data);
         noteId = newNote.data.id;
       }
+      await axios.patch("/api/commit", {});
       router.push("/note/" + noteId);
       router.refresh();
     } catch (error) {
