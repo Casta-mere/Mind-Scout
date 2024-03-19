@@ -1,11 +1,14 @@
-import { AuthorCheck } from "@/app/components";
+import { AuthorCheck, GetUser } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
 import NoteDetails from "../NoteDetails";
-import DeleteNoteButton from "./DeleteNoteButton";
-import EditNoteButton from "./EditNoteButton";
-import StatusSelectButton from "./StatusSelectButton";
-import PublishButton from "./PublishButton";
+import {
+  DeleteNoteButton,
+  EditNoteButton,
+  ForkNoteButton,
+  PublishButton,
+  StatusSelectButton,
+} from "../_components";
 interface Props {
   params: { id: string };
 }
@@ -14,14 +17,18 @@ const NoteDetailPAge = async ({ params }: Props) => {
     where: {
       id: params.id,
     },
+    include: {
+      author: true,
+    },
   });
 
   const authorCheck = await AuthorCheck(note!);
+  const loginCheck = await GetUser();
 
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
-        <NoteDetails note={note!} />
+        <NoteDetails note={note!} avatarUrl={note?.author.image!} />
       </Box>
       {authorCheck && (
         <Box>
@@ -39,6 +46,7 @@ const NoteDetailPAge = async ({ params }: Props) => {
           </Flex>
         </Box>
       )}
+      {!authorCheck && loginCheck && <ForkNoteButton note={note!} />}
     </Grid>
   );
 };
