@@ -5,6 +5,7 @@ import NoteDetails from "../NoteDetails";
 import DeleteNoteButton from "./DeleteNoteButton";
 import EditNoteButton from "./EditNoteButton";
 import StatusSelectButton from "./StatusSelectButton";
+import PublishButton from "./PublishButton";
 interface Props {
   params: { id: string };
 }
@@ -31,6 +32,9 @@ const NoteDetailPAge = async ({ params }: Props) => {
                 <EditNoteButton noteid={note?.id!} />
                 <DeleteNoteButton noteid={note?.id!} />
               </>
+            )}
+            {note?.status === "ARCHIEVED" && note?.scope !== "PUBLIC" && (
+              <PublishButton noteid={note?.id!} />
             )}
           </Flex>
         </Box>

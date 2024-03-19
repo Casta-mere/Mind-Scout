@@ -1,24 +1,25 @@
 "use client";
+
 import { Spinner } from "@/app/components";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { CiShare1 } from "react-icons/ci";
 
-const DeleteNoteButton = ({ noteid }: { noteid: string }) => {
+const PublishButton = ({ noteid }: { noteid: string }) => {
   const router = useRouter();
+  const [isSharing, setSharing] = useState(false);
   const [error, setError] = useState(false);
-  const [isDeleting, setDeleting] = useState(false);
 
-  const handleDeleteNote = async () => {
+  const handlePublicNote = async () => {
     try {
-      setDeleting(true);
-      await axios.delete("/api/note/" + noteid);
-      router.push("/note");
+      setSharing(true);
+      await axios.patch("/api/note/" + noteid, { scope: "PUBLIC" });
       router.refresh();
-    } catch (error) {
-      setDeleting(false);
+    } catch {
+      console.log(error);
+      setSharing(false);
       setError(true);
     }
   };
@@ -27,16 +28,16 @@ const DeleteNoteButton = ({ noteid }: { noteid: string }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red" disabled={isDeleting}>
-            <Cross2Icon />
-            Delete Note
-            {isDeleting && <Spinner />}
+          <Button color="brown" disabled={isSharing}>
+            <CiShare1 />
+            Public This Note
+            {isSharing && <Spinner />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
           <AlertDialog.Description>
-            Are you sure you want to delete this? This action cannot be undone.
+            Are you sure you want to Public this? This action cannot be undone.
           </AlertDialog.Description>
           <Flex mt="4" gap="4">
             <AlertDialog.Cancel>
@@ -45,8 +46,8 @@ const DeleteNoteButton = ({ noteid }: { noteid: string }) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button color="red" onClick={handleDeleteNote}>
-                Delete Note
+              <Button color="brown" onClick={handlePublicNote}>
+                Go Public
               </Button>
             </AlertDialog.Action>
           </Flex>
@@ -56,7 +57,7 @@ const DeleteNoteButton = ({ noteid }: { noteid: string }) => {
         <AlertDialog.Content>
           <AlertDialog.Title>Error</AlertDialog.Title>
           <AlertDialog.Description>
-            This note could not be deleted
+            This note could not be Publiced
           </AlertDialog.Description>
           <Button
             color="gray"
@@ -71,4 +72,4 @@ const DeleteNoteButton = ({ noteid }: { noteid: string }) => {
     </>
   );
 };
-export default DeleteNoteButton;
+export default PublishButton;
