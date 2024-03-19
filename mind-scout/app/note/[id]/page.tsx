@@ -9,18 +9,24 @@ import {
   PublishButton,
   StatusSelectButton,
 } from "../_components";
+import { cache } from "react";
 interface Props {
   params: { id: string };
 }
-const NoteDetailPAge = async ({ params }: Props) => {
-  const note = await prisma.page.findUnique({
+
+const fetchUser = cache((noteid: string) =>
+  prisma.page.findUnique({
     where: {
-      id: params.id,
+      id: noteid,
     },
     include: {
       author: true,
     },
-  });
+  })
+);
+
+const NoteDetailPAge = async ({ params }: Props) => {
+  const note = await fetchUser(params.id);
 
   const authorCheck = await AuthorCheck(note!);
   const loginCheck = await GetUser();
@@ -53,7 +59,7 @@ const NoteDetailPAge = async ({ params }: Props) => {
 export default NoteDetailPAge;
 
 export async function generateMetadata({ params }: Props) {
-  const note = await prisma.page.findUnique({ where: { id: params.id } });
+  const note = await fetchUser(params.id);
   return {
     title: note?.title || "Note " + note?.id,
     description: "Detail of Note " + note?.id,
