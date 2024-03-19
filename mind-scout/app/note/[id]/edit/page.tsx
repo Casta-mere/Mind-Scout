@@ -21,3 +21,11 @@ const EditPage = async ({ params }: Props) => {
   return <NoteForm note={note} />;
 };
 export default EditPage;
+
+export async function generateMetadata({ params }: Props) {
+  const note = await prisma.page.findUnique({ where: { id: params.id } });
+  return {
+    title: "Editing: " + note?.title || note?.id,
+    description: "Edit Note " + note?.id,
+  };
+}

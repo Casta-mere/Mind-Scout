@@ -10,6 +10,7 @@ import {
   WorkHistory,
 } from "@/app/components";
 import prisma from "@/prisma/client";
+import { Metadata } from "next";
 
 export default async function Home() {
   const user = await GetUser();
@@ -60,3 +61,8 @@ export default async function Home() {
     </Grid>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Mind-Scout DashBoard",
+  description: "View Dashboard of Your Notes!",
+};

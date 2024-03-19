@@ -4,6 +4,7 @@ import { pageStatus } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
 import NoteActions from "./NoteActions";
 import NoteTable, { NoteQuery } from "./NoteTable";
+import { Metadata } from "next";
 interface Props {
   searchParams: NoteQuery;
 }
@@ -42,3 +43,8 @@ const NotesPage = async ({ searchParams }: Props) => {
 export default NotesPage;
 
 const PAGE_SIZE = 10;
+
+export const metadata: Metadata = {
+  title: "Mind-Scout - Work Space",
+  description: "View All of Your Notes!",
+};

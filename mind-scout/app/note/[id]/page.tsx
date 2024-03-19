@@ -51,3 +51,11 @@ const NoteDetailPAge = async ({ params }: Props) => {
   );
 };
 export default NoteDetailPAge;
+
+export async function generateMetadata({ params }: Props) {
+  const note = await prisma.page.findUnique({ where: { id: params.id } });
+  return {
+    title: note?.title || "Note " + note?.id,
+    description: "Detail of Note " + note?.id,
+  };
+}
