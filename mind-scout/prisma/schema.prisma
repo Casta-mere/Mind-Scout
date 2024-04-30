@@ -41,14 +41,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   files         Page[]
+  CommitCount   CommitCount[]
 }
 
 model VerificationToken {
@@ -70,6 +71,14 @@ model Page {
   updatedAt   DateTime   @updatedAt()
   authorId    String     @db.VarChar(255)
   author      User       @relation(fields: [authorId], references: id)
+}
+
+model CommitCount {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  commitCount    Int      @default(0)
+  monthStartDate DateTime
 }
 
 enum pageStatus {
