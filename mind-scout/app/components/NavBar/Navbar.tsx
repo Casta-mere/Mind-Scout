@@ -9,7 +9,7 @@ import { RiDashboardFill } from "react-icons/ri";
 
 const NavBar = () => {
   return (
-    <nav className="border-b mb-5 px-5 py-5">
+    <nav className="border-b mb-5 px-5 py-4">
       <Flex align="center" justify="between">
         <NavLinksComponent />
         <LoginComponent />

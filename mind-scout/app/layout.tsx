@@ -1,10 +1,11 @@
 import AuthProvider from "@/app/api/auth/AuthProvider";
-import { Container, Theme } from "@radix-ui/themes";
+import { Container, Flex, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NavBar, QueryClientProvider } from "@/app/components";
 import "./globals.css";
+import Footer from "./components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +25,13 @@ export default function RootLayout({
         <QueryClientProvider>
           <AuthProvider>
             <Theme appearance="light" accentColor="violet">
-              <NavBar />
-              <main className="p-5">
-                <Container>{children}</Container>
-              </main>
+              <Flex direction="column" className="min-h-screen">
+                <NavBar />
+                <main className="p-5">
+                  <Container>{children}</Container>
+                </main>
+                <Footer />
+              </Flex>
             </Theme>
           </AuthProvider>
         </QueryClientProvider>
