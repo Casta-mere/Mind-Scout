@@ -56,21 +56,17 @@ const NoteForm = ({ note }: { note?: Page }) => {
         </Callout.Root>
       )}
       <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-        <TextField.Root>
-          <TextField.Input
-            defaultValue={note?.title || ""}
-            placeholder="Title"
-            {...register("title")}
-          />
-        </TextField.Root>
+        <TextField.Root
+          defaultValue={note?.title || ""}
+          placeholder="Title"
+          {...register("title")}
+        />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
-        <TextField.Root>
-          <TextField.Input
-            defaultValue={note?.description || ""}
-            placeholder="Description"
-            {...register("description")}
-          />
-        </TextField.Root>
+        <TextField.Root
+          defaultValue={note?.description || ""}
+          placeholder="Description"
+          {...register("description")}
+        />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Controller
           defaultValue={note?.content || ""}

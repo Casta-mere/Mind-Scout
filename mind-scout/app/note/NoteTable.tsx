@@ -1,5 +1,5 @@
 import { Page, pageStatus } from "@prisma/client";
-import { Flex, Table, TableColumnHeaderCell } from "@radix-ui/themes";
+import { Flex, Table } from "@radix-ui/themes";
 import { Link, NoteScopeBadge, NoteStatusBadge } from "@/app/components";
 
 interface Props {
@@ -17,16 +17,16 @@ const NoteTable = ({ searchParams, notes }: Props) => {
     <Table.Root>
       <Table.Header>
         <Table.Row>
-          <TableColumnHeaderCell>Title</TableColumnHeaderCell>
-          <TableColumnHeaderCell className="hidden md:table-cell">
+          <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="hidden md:table-cell">
             Description
-          </TableColumnHeaderCell>
-          <TableColumnHeaderCell className="hidden md:table-cell">
+          </Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="hidden md:table-cell">
             Page Status
-          </TableColumnHeaderCell>
-          <TableColumnHeaderCell className="hidden md:table-cell">
+          </Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="hidden md:table-cell">
             Last Edit
-          </TableColumnHeaderCell>
+          </Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
