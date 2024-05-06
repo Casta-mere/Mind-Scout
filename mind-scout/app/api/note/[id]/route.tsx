@@ -38,7 +38,8 @@ export async function PATCH(
   if (!authorCheck)
     return NextResponse.json({}, { status: HttpCode.UNAUTHORIZED });
 
-  const { title, content, description, status, scope } = body;
+  const { title, content, description, status, scope, reviews, reviewedAt } =
+    body;
 
   const updatedNote = await prisma.page.update({
     where: { id },
@@ -48,6 +49,8 @@ export async function PATCH(
       content,
       status,
       scope,
+      reviews,
+      reviewedAt,
     },
   });
 
