@@ -1,6 +1,7 @@
 import { AuthorCheck, GetUser } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import { cache } from "react";
 import NoteDetails from "../NoteDetails";
 import {
   DeleteNoteButton,
@@ -9,12 +10,11 @@ import {
   PublishButton,
   StatusSelectButton,
 } from "../_components";
-import { cache } from "react";
 interface Props {
   params: { id: string };
 }
 
-const fetchUser = cache((noteid: string) =>
+const fetchNote = cache((noteid: string) =>
   prisma.page.findUnique({
     where: {
       id: noteid,
@@ -26,7 +26,7 @@ const fetchUser = cache((noteid: string) =>
 );
 
 const NoteDetailPAge = async ({ params }: Props) => {
-  const note = await fetchUser(params.id);
+  const note = await fetchNote(params.id);
 
   const authorCheck = await AuthorCheck(note!);
   const loginCheck = await GetUser();
@@ -36,8 +36,8 @@ const NoteDetailPAge = async ({ params }: Props) => {
       <Box className="md:col-span-4">
         <NoteDetails note={note!} avatarUrl={note?.author.image!} />
       </Box>
-      {authorCheck && (
-        <Box>
+      <Box>
+        {authorCheck && (
           <Flex direction="column" gap="3">
             <StatusSelectButton note={note!} />
             {note?.status === "IN_PROGRESS" && (
@@ -50,16 +50,17 @@ const NoteDetailPAge = async ({ params }: Props) => {
               <PublishButton noteid={note?.id!} />
             )}
           </Flex>
-        </Box>
-      )}
-      {!authorCheck && loginCheck && <ForkNoteButton note={note!} />}
+        )}
+        {!authorCheck && loginCheck && <ForkNoteButton note={note!} />}
+      </Box>
     </Grid>
   );
 };
+
 export default NoteDetailPAge;
 
 export async function generateMetadata({ params }: Props) {
-  const note = await fetchUser(params.id);
+  const note = await fetchNote(params.id);
   return {
     title: note?.title || "Note " + note?.id,
     description: "Detail of Note " + note?.id,
