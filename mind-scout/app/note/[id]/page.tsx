@@ -8,6 +8,7 @@ import {
   EditNoteButton,
   ForkNoteButton,
   PublishButton,
+  ReviewNoteButton,
   StatusSelectButton,
 } from "../_components";
 interface Props {
@@ -45,6 +46,9 @@ const NoteDetailPAge = async ({ params }: Props) => {
                 <EditNoteButton noteid={note?.id!} />
                 <DeleteNoteButton noteid={note?.id!} />
               </>
+            )}
+            {note?.status === "ARCHIEVED" && (
+              <ReviewNoteButton noteid={note?.id} />
             )}
             {note?.status === "ARCHIEVED" && note?.scope !== "PUBLIC" && (
               <PublishButton noteid={note?.id!} />
