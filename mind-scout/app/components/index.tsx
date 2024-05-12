@@ -1,4 +1,4 @@
-export { default as NoteScopeBadge } from "./Badge/NoteScpoeBadge";
+export { default as NoteScopeBadge } from "./Badge/NoteScopeBadge";
 export { default as NoteStatusBadge } from "./Badge/NoteStatusBadge";
 export { default as LatestNote } from "./DashBoard/LatestNote";
 export { default as NoteChart } from "./DashBoard/NoteChart";
@@ -18,3 +18,4 @@ export { default as Pagination } from "./Pagination";
 export { default as QueryClientProvider } from "./Provider/QueryClientProvider";
 export { default as Skeleton } from "./Skeleton";
 export { default as Spinner } from "./Spinner";
+export { default as EbbinghausCurveChart } from "./EbbinghausCurveChart";
