@@ -3,7 +3,6 @@ import { Flex, Table } from "@radix-ui/themes";
 import { Link, NoteScopeBadge, NoteStatusBadge } from "@/app/components";
 
 interface Props {
-  searchParams: NoteQuery;
   notes: Page[];
 }
 export interface NoteQuery {
@@ -12,7 +11,7 @@ export interface NoteQuery {
   page: string;
 }
 
-const NoteTable = ({ searchParams, notes }: Props) => {
+const NoteTable = ({ notes }: Props) => {
   return (
     <Table.Root>
       <Table.Header>

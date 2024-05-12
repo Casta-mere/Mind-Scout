@@ -1,5 +1,4 @@
 "use client";
-import { Card } from "@radix-ui/themes";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 interface Props {

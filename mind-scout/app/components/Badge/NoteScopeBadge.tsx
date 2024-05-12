@@ -10,7 +10,7 @@ const scopeMap: Record<
   PUBLIC: { label: "Public", color: "sky" },
 };
 
-const NoteScpoeBadge = ({ scope }: { scope: Scope }) => {
+const NoteScopeBadge = ({ scope }: { scope: Scope }) => {
   return <Badge color={scopeMap[scope].color}>{scopeMap[scope].label}</Badge>;
 };
-export default NoteScpoeBadge;
+export default NoteScopeBadge;

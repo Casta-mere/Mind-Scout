@@ -31,7 +31,7 @@ const NotesPage = async ({ searchParams }: Props) => {
   return (
     <Flex direction="column" gap="4">
       <NoteActions />
-      <NoteTable notes={notes} searchParams={searchParams} />
+      <NoteTable notes={notes} />
       <Pagination
         pageSize={PAGE_SIZE}
         currentPage={page}

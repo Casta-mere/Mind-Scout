@@ -1,4 +1,3 @@
-import { Flex, Grid } from "@radix-ui/themes";
 import {
   GetCommitCount,
   GetUser,
@@ -10,6 +9,7 @@ import {
   WorkHistory,
 } from "@/app/components";
 import prisma from "@/prisma/client";
+import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
 
 export default async function Home() {

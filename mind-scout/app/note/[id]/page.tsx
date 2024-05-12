@@ -47,7 +47,7 @@ const NoteDetailPAge = async ({ params }: Props) => {
                 <DeleteNoteButton noteid={note?.id!} />
               </>
             )}
-            {note?.status === "ARCHIEVED" && (
+            {note?.status === "ARCHIEVED" && note.reviews && (
               <ReviewNoteButton noteid={note?.id} />
             )}
             {note?.status === "ARCHIEVED" && note?.scope !== "PUBLIC" && (

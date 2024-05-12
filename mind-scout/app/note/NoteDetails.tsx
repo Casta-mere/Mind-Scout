@@ -17,7 +17,7 @@ const NoteDetails = ({
           <Heading as="h1">{note.title}</Heading>
           <Avatar src={avatarUrl} fallback={"?"} radius="full" size="3" />
         </Flex>
-        <Flex gap="3" my="5">
+        <Flex gap="3" my="5" align="center">
           <NoteStatusBadge status={note.status} />
           {note.scope === "PUBLIC" && <NoteScopeBadge scope={note.scope} />}
           <Text>{note.createdAt.toDateString()}</Text>
