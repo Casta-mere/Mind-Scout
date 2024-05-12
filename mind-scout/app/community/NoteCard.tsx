@@ -7,7 +7,10 @@ import Link from "next/link";
 const NoteCard = ({ note, avatarUrl }: { note: Page; avatarUrl: string }) => {
   return (
     <Link href={`/note/${note.id}`}>
-      <Card size="1">
+      <Card
+        size="1"
+        className="bg-blue-200 shadow-md hover:shadow-2xl transition-all"
+      >
         <Flex direction="row" justify="between" align="center" mb="2">
           <Flex direction="column" justify="between" align="start" gap="2">
             <Heading as="h1" className="line-clamp-1">
