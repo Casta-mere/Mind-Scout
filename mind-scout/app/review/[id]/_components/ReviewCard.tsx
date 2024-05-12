@@ -18,20 +18,43 @@ import { FaCheck, FaChevronRight, FaLightbulb } from "react-icons/fa";
 import { HiArrowUturnLeft } from "react-icons/hi2";
 import { RiCloseLine } from "react-icons/ri";
 import NotePieChart from "./ReviewPieChart";
+import { Page } from "@prisma/client";
 const ReviewCard = ({
   reviewArray,
   reviews,
   noteId,
+  note,
 }: {
   reviewArray: [string, [string, number]][];
   reviews: { string: [string, number] };
   noteId: string;
+  note: Page;
 }) => {
   const reviewsCount = reviewArray.length;
   const [id, setId] = useState(0);
+  const lastTime = note.reviewedAt;
+
+  const ebb = (time: number) => {
+    return Math.ceil((100 * 1.84) / (Math.pow(Math.log10(time), 1.25) + 1.84));
+  };
+
+  const score_p = note.reviewsCount!;
+
+  const deltaT = Math.ceil(
+    (new Date().getTime() - lastTime!.getTime()) / (60 * 1000)
+  );
+
+  const score_b = deltaT <= 1440 ? score_p : ebb(deltaT);
+
+  const [score, setScore] = useState(score_b);
+  const [plus, setPlus] = useState(0);
 
   const Submit = async (data: any) => {
     try {
+      const { score_final, score_plus } = calculateScore(data);
+      setScore(score_final);
+      setPlus(score_plus);
+
       const convertedData = data.reduce(
         (obj: { [x: string]: any[] }, [key, [value, _]]: any) => {
           obj[key] = [value, _];
@@ -42,6 +65,7 @@ const ReviewCard = ({
       await axios.patch("/api/note/" + noteId, {
         reviews: { ...reviews, ...convertedData },
         reviewedAt: new Date().toISOString(),
+        reviewsCount: score_final,
       });
       // window.location.reload();
     } catch (error) {
@@ -49,9 +73,62 @@ const ReviewCard = ({
     }
   };
 
+  const calculateScore = (data: any) => {
+    const zeroCount = data.reduce(
+      (acc: number, [, [, num]]: any) => (num === 0 ? acc + 1 : acc),
+      0
+    );
+    const oneCount = data.reduce(
+      (acc: number, [, [, num]]: any) => (num === 1 ? acc + 1 : acc),
+      0
+    );
+
+    const score_r = (100 * (oneCount / (zeroCount + oneCount))) / 100;
+
+    const score_plus = Math.ceil(
+      score_b < 83 ? (83 - score_b) * score_r : score_b < 95 ? 2 : 0
+    );
+
+    const score_final = Math.ceil(score_b + score_plus);
+
+    return { score_final, score_plus };
+  };
+
   const remainReviews = () => {
     const count = reviewArray.filter((item) => item[1][1] === 0).length;
     return count;
+  };
+
+  const interval =
+    (new Date().getTime() - lastTime!.getTime()) / (24 * 60 * 60 * 1000);
+  const i =
+    interval < 1 ? "一日" : interval < 7 ? "一周" : interval < 30 ? "月" : "年";
+
+  const ReviewScore = () => {
+    return (
+      <Flex direction="column" gap="4">
+        <Strong>
+          <Text size="6">您的记忆力分数</Text>
+        </Strong>
+        <Flex className="bg-blue-100 rounded-md">
+          <Flex m="4" justify="between" className="items-center w-full">
+            <Text size="6" weight="bold" color="blue">
+              {i}记忆
+            </Text>
+            <Flex className="items-center" gap="4">
+              {plus !== 0 && (
+                <Badge color="green" variant="solid" radius="full">
+                  +{plus}
+                </Badge>
+              )}
+              <Text size="6" weight="bold">
+                {score}%
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    );
   };
 
   if (id === reviewsCount) {
@@ -189,12 +266,14 @@ const ReviewCard = ({
           </Grid>
         </Flex>
         <Flex className="items-center col-span-1 h-11"></Flex>
+
+        <ReviewScore />
       </>
     );
   }
 
   return (
-    <Flex direction="column" gap="3">
+    <Flex direction="column" gap="4">
       <Card size="5" className="col-span-3 h-96">
         {id !== reviewsCount && reviewsCount !== 0 && (
           <Flex direction="column" gap="5">
@@ -261,6 +340,7 @@ const ReviewCard = ({
       </Grid>
 
       <Progress value={(100 * id) / reviewsCount!} color="violet" />
+      <ReviewScore />
     </Flex>
   );
 };

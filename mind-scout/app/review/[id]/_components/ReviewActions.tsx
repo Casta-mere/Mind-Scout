@@ -1,9 +1,11 @@
 "use client";
 import { Button, Flex, Grid, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaExternalLinkAlt, FaLightbulb, FaPencilAlt } from "react-icons/fa";
 
 const ReviewActions = ({ noteId }: { noteId: string }) => {
+  const router = useRouter();
   const actions: {
     name: string;
     icon: any;
@@ -16,7 +18,15 @@ const ReviewActions = ({ noteId }: { noteId: string }) => {
       href: "/review/" + noteId,
       action: () => window.location.reload(),
     },
-    { name: "修改卡片", icon: <FaPencilAlt />, href: "/" },
+    {
+      name: "修改卡片",
+      icon: <FaPencilAlt />,
+      href: "/review/" + noteId + "/edit",
+      action: () => {
+        router.push("/review/" + noteId + "/edit");
+        router.refresh();
+      },
+    },
     { name: "查看原文", icon: <FaExternalLinkAlt />, href: "/note/" + noteId },
   ];
 

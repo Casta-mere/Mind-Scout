@@ -1,8 +1,20 @@
 import { AuthorCheck, GetUser } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Flex, Grid, Heading, Strong, Text } from "@radix-ui/themes";
+import {
+  Callout,
+  Flex,
+  Grid,
+  Heading,
+  Link,
+  Strong,
+  Text,
+} from "@radix-ui/themes";
 import { cache } from "react";
 import { ReviewActions, ReviewCard, ReviewCards } from "./_components";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import ReviewScore from "./_components/ReviewScore";
+import { useRouter } from "next/navigation";
+import ReviewForm from "./_components/ReviewForm";
 
 const fetchNote = cache((noteid: string) =>
   prisma.page.findUnique({
@@ -28,6 +40,11 @@ const page = async ({ params }: Props) => {
   const reviews = note!.reviews! as {
     string: [string, number];
   };
+
+  if (!reviews) {
+    return <ReviewForm note={note!} avataUrl={note!.author.image!} />;
+  }
+
   const reviewArray: [string, [string, number]][] = Object.entries(reviews);
 
   const filteredReviewArray = reviewArray.reduce(
@@ -67,13 +84,14 @@ const page = async ({ params }: Props) => {
   return (
     <>
       <Grid columns="4">
-        <Flex className="col-span-3" direction="column" gap="5">
+        <Flex className="col-span-3" direction="column" gap="7">
           <ReviewInfo />
           <ReviewActions noteId={note?.id!} />
           <ReviewCard
             reviewArray={filteredReviewArray[0]}
             reviews={reviews}
             noteId={note?.id!}
+            note={note!}
           />
           <Strong>
             <Text size="6">此学习集的卡片({reviewArray.length})</Text>

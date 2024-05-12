@@ -8,13 +8,23 @@ import toast, { Toaster } from "react-hot-toast";
 
 const StatusSelectButton = ({ note }: { note: Page }) => {
   const router = useRouter();
-  const changeStatus = (status: string) => {
-    axios
+  const changeStatus = async (status: string) => {
+    await axios
       .patch("/api/note/" + note.id, {
         status: status,
       })
       .then(() => router.refresh())
       .catch(() => toast.error("Change not saved !"));
+    if (status === "ARCHIEVED" && !note.reviews) {
+      toast.success("Generating Reviews !");
+      await axios
+        .get("/proxy/gpt/" + note.id)
+        .then(() => {
+          router.refresh();
+          toast.success("Start Reviewing !");
+        })
+        .catch(() => toast.error("Something went wrong !"));
+    }
   };
   return (
     <>
